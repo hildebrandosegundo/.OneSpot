@@ -1,0 +1,8 @@
+{
+  "name": "onespot",
+  "app_id": "ac1e52e2",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
