@@ -1,14 +1,43 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
+  <ion-navbar hideBackButton>
+    <ion-title left>
+      .OneSpot
     </ion-title>
+    <ion-buttons right>
+      <button ion-button item-start clear icon-only color="light" (click)="search()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button item-start clear icon-only color="light" (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding class="headerBg">
+<div>
+<ion-thumbnail *ngIf="user.images[0]"><img [src]="user.images[0].url" class="profile-img"></ion-thumbnail>
+
+  <h3 text-center>{{user.display_name}}</h3>
+
+</div>
+<div *ngIf="playlist">
+  <ion-card *ngFor="let playl of playlist.items">
+
+    <ion-item>
+      <h2>{{playl.name}}</h2>
+      <p>{{playl.type}}</p>
+    </ion-item>
+
+    <img [src]="playl.images[0].url">
+
+    <ion-card-content>
+      <p>Total de {{playl.tracks.total}} músicas</p>
+    </ion-card-content>
+
+  </ion-card>
+</div>
 </ion-content>
+<ion-footer class="footerBg">
+<p class="text-footer" padding>Busque uma música e solte o som</p>
+</ion-footer>

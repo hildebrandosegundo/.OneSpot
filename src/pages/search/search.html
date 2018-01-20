@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-navbar>
+    <ion-searchbar #searchbar1 (ionInput)="getItems($event)" placeholder="Busque musicas, artistas, albuns..."></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="headerBg">
+  <ion-list>
+    <div *ngIf="artists && artists.items.length>0">
+      <ion-item-divider class="item-divider">Artistas</ion-item-divider>
+    <ion-item *ngFor="let artist of artists.items" class="item-seach" (click)="goAlbums(artist)">
+      <ion-thumbnail item-start>
+        <img *ngIf="artist.images[0]" [src]="artist.images[0].url">
+        <img *ngIf="!artist.images[0]" src="assets/icon/inter.png">
+      </ion-thumbnail>
+      {{ artist.name }}
+      <ion-icon item-end disabled name="ios-arrow-forward"></ion-icon>
+    </ion-item>
+      <ion-buttons>
+        <ion-grid>
+          <ion-row>
+        <ion-col col-6>
+        <button class="button-bg" ion-button icon-only block (click)="nextprevArt(artists.previous)">
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+        </ion-col>
+        <ion-col col-6>
+        <button class="button-bg" ion-button icon-only block (click)="nextprevArt(artists.next)">
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </button>
+        </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-buttons>
+    </div>
+    <div *ngIf="albuns && albuns.items.length>0">
+    <ion-item-divider class="item-divider">Albuns</ion-item-divider>
+    <ion-item *ngFor="let album of albuns.items" class="item-seach" (click)="goMusics(album)">
+      <ion-thumbnail item-start>
+        <img *ngIf="album.images[0]" [src]="album.images[0].url">
+        <img *ngIf="!album.images[0]" src="assets/icon/inter.png">
+      </ion-thumbnail>
+      <h2>{{ album.name }}</h2>
+      <p class="descricao-artista" *ngFor="let art of album.artists"> {{ art.name}}</p>
+      <ion-icon item-end disabled name="ios-arrow-forward"></ion-icon>
+    </ion-item>
+      <ion-buttons>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevAlbuns(albuns.previous)">
+                <ion-icon name="ios-arrow-back"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevAlbuns(albuns.next)">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-buttons>
+    </div>
+    <div *ngIf="tracks && tracks.items.length>0">
+      <ion-item-divider class="item-divider">Músicas</ion-item-divider>
+      <ion-item *ngFor="let track of tracks.items" class="item-seach">
+        <ion-thumbnail item-start>
+          <img *ngIf="track.album.images[0]" [src]="track.album.images[0].url">
+          <img *ngIf="!track.album.images[0]" src="assets/icon/inter.png">
+        </ion-thumbnail>
+        <h2>{{ track.name }}</h2>
+        <h5>{{ track.album.name }}</h5>
+        <p class="descricao-artista" *ngFor="let art of track.artists"> {{ art.name}}</p>
+        <ion-icon item-end disabled name="ios-arrow-forward"></ion-icon>
+      </ion-item>
+      <ion-buttons>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevTrack(tracks.previous)">
+                <ion-icon name="ios-arrow-back"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevTrack(tracks.next)">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-buttons>
+    </div>
+  </ion-list>
+
+</ion-content>

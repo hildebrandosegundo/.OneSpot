@@ -14,3 +14,73 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.headerBg {
+  background: linear-gradient(0deg, rgba(112,11,111,1) 0%, rgba(237,79,255,1) 100%) /* w3c */!important;
+  color: #404040 !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+.footerBg {
+  background: linear-gradient(0deg, rgb(84, 17, 55) 0%, rgb(83, 12, 62) 100%) /* w3c */!important;
+  color: #404040 !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+.button-bg {
+  background-color: #fff !important;
+  border-color: #EC3DFF !important;
+  color: #C71FFF !important;
+  font-weight: 600;
+  border-radius: 5px;
+}
+.title {
+  color: #404040;
+  color-interpolation-filters: linear-gradient(0deg, rgba(92,92,94,1) 0%, rgba(67,54,67,1) 60%, rgba(51,30,49,1) 100%) /* w3c */ !important;
+  font-size: 64px;
+  font-weight: 300;
+  font-family: monospace, "Roboto", "Helvetica Neue", sans-serif !important;
+  text-align: center;
+}
+.profile-img {
+  border-radius: 50%;
+}
+p.descricao-artista {
+  font-size: 12px;
+  overflow: initial;
+  white-space: initial;
+  line-height: 12px;
+  padding-top: 0px;
+  color: #c5c5c5;
+}
+p.text-footer {
+  color: #fff;
+  font-size: 32px;
+  line-height: 32px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 10px;
+}
+.item-divider {
+  background-color: #434343 !important;
+  font-size: 16px;
+  line-height: 14px;
+  font-weight: 400;
+  padding-top: 0px;
+  color: #fff;
+  margin-bottom: 2px !important;
+}
+.item-seach {
+  background-color: #5c5c5c !important;
+  font-size: 16px;
+  line-height: 14px;
+  font-weight: 400;
+  padding-top: 0px;
+  color: #fff;
+  margin-bottom: 0px !important;
+}
