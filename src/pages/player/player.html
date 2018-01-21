@@ -1,44 +1,63 @@
 <ion-header>
   <ion-navbar>
-    <ion-searchbar #searchbar1 (ionInput)="getItems($event)" placeholder="Busque musicas, artistas, albuns..."></ion-searchbar>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="cancel()">
-        <ion-icon name="close"></ion-icon>
+    <ion-title left>
+      .OneSpot
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button item-start clear icon-only color="light" (click)="search()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button item-start clear icon-only color="light" (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="headerBg">
-  <ion-list>
-    <div *ngIf="albuns && albuns.items.length>0">
-      <ion-item-divider class="item-divider">Albuns</ion-item-divider>
-      <ion-item *ngFor="let album of albuns.items" class="item-seach" (click)="goMusics(album)">
-        <ion-thumbnail item-start>
-          <img *ngIf="album.images[0]" [src]="album.images[0].url">
-          <img *ngIf="!album.images[0]" src="assets/icon/inter.png">
-        </ion-thumbnail>
-        <h2>{{ album.name }}</h2>
-        <p class="descricao-artista" *ngFor="let art of album.artists"> {{ art.name}}</p>
-        <ion-icon item-end disabled name="ios-arrow-forward"></ion-icon>
-      </ion-item>
-      <ion-buttons>
-        <ion-grid>
-          <ion-row>
-            <ion-col col-6>
-              <button class="button-bg" ion-button icon-only block (click)="nextprevAlbuns(albuns.previous)">
-                <ion-icon name="ios-arrow-back"></ion-icon>
-              </button>
-            </ion-col>
-            <ion-col col-6>
-              <button class="button-bg" ion-button icon-only block (click)="nextprevAlbuns(albuns.next)">
-                <ion-icon name="ios-arrow-forward"></ion-icon>
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-buttons>
-    </div>
-  </ion-list>
+  <ion-thumbnail>
+    <img *ngIf="album_img" [src]="album_img">
+    <img *ngIf="!album_img" src="assets/icon/inter.png">
+  </ion-thumbnail>
+<!--
+  <img class="bg_player" [src]="album_img">
+-->
+<!--<ion-buttons>
+  <button ion-fab *ngIf="!audioObject.isPlaying" (click)="playMusic()">
+    <ion-icon name="play"></ion-icon>
+  </button>
+  <button ion-fab *ngIf="audioObject.isPlaying" (click)="pauseMusic()">
+    <ion-icon name="pause"></ion-icon>
+  </button>
+</ion-buttons>-->
+  <img [src]="album_img" class="bg_player">
+  <div class="content">
 
+  <div class="audio-wrapper" #player_container href="javascript:;">
+  <audio #player (timeupdate)="initProgressBar()">
+    <source src="{{track.preview_url}}" type="audio/mp3">
+  </audio>
+  </div>
+    <ion-range #seek_obj [max]="_length" [(ngModel)]="_prog_val" color="viol"></ion-range>
+      <p class="descricao-artista_player" style="float: left; position: relative; left: 15px;">{{_start_time || '0:0'}}</p>
+      <p class="descricao-artista_player" style="float: right; position: relative; right: 20px;">{{_end_time || '0:0'}}</p>
+<ion-item>
+    <button item-start ion-fab class="button-player-bg" icon-only #play_btn *ngIf="!isPlaying" (click)="togglePlay()"><ion-icon name="play"></ion-icon></button>
+    <button item-start ion-fab class="button-player-bg" icon-only #play_btn *ngIf="isPlaying" (click)="togglePlay()"><ion-icon name="pause"></ion-icon></button>
+  <ion-buttons>
+    <button ion-button clear icon-only color="viol" (click)="repeatMusic()" *ngIf="!repeat"><ion-icon name="repeat"></ion-icon></button>
+    <button ion-button clear icon-only color="viol" (click)="repeatMusic()" *ngIf="repeat"><ion-icon name="return-right"></ion-icon></button>
+  </ion-buttons>
+    <ion-buttons item-end>
+      <button ion-button clear icon-only color="light" (click)="shareMusic()"><ion-icon name="share"></ion-icon></button>
+      <button ion-button clear icon-only color="light" (click)="shareMusic()"><ion-icon name="heart"></ion-icon></button>
+      <!--<button ion-button clear icon-only (click)="shareMusic()"><ion-icon name="heart-outline"></ion-icon></button>-->
+    </ion-buttons>
+</ion-item>
+    <ion-item>
+      <h2 class="descricao-album_artist">{{ track.name }}</h2>
+      <h5 class="descricao-album_artist">{{ album_name }}</h5>
+      <p class="descricao-artista_player" *ngFor="let art of track.artists"> {{ art.name}}</p>
+    </ion-item>
+  </div>
 </ion-content>

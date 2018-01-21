@@ -7,8 +7,10 @@ import {Logout} from "../logout/logout";
  */
 import * as SpotifyWebApi from "../../app/spotify-web-api-js";
 import {Search} from "../search/search";
+declare var window: any;
+declare var Spotify: any;
 let spotifyApi = new SpotifyWebApi();
-
+//import "../../app/spotify-player.js";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -39,8 +41,8 @@ export class HomePage {
   ngOnInit(){
     if (localStorage['user'])
     this.user = JSON.parse(localStorage['user']);
-
     this.getPlayList();
+
   }
   presentPopover(ev:any) {
     let popover = this.popoverCtrl.create(Logout);

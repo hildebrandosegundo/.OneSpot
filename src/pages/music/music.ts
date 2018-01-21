@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {NavController, NavParams, Searchbar, ViewController} from 'ionic-angular';
 import {Login} from "../login/login";
 import * as SpotifyWebApi from "../../app/spotify-web-api-js";
+import {Player} from "../player/player";
 let spotifyApi = new SpotifyWebApi();
 spotifyApi.setAccessToken(localStorage['access_token']);
 @Component({
@@ -25,6 +26,9 @@ export class Music {
     this.album_name = this.navParam.get('album_name');
     this.album_cid = this.navParam.get('album_cid');
     this.getTracksAlbum();
+  }
+  goPlayer(track:any, album_img:any){
+    this.navCtrl.push(Player,{track:track,album_img: album_img, album_name: this.album_name})
   }
   getTracksAlbum(){
     let vm = this;
@@ -57,7 +61,7 @@ export class Music {
       this.getTracksAlbum();
       setTimeout(() => {
         this.searchbar.setFocus();
-      },1000);
+      },500);
     }
     // set val to the value of the searchbar
     this.val = ev.target.value;

@@ -3,6 +3,7 @@ import {NavController, Searchbar, ViewController} from 'ionic-angular';
 import * as SpotifyWebApi from "../../app/spotify-web-api-js";
 import {Music} from "../music/music";
 import {Album} from "../album/album";
+import {Player} from "../player/player";
 let spotifyApi = new SpotifyWebApi();
 spotifyApi.setAccessToken(localStorage['access_token']);
 @Component({
@@ -36,13 +37,22 @@ export class Search {
     }
     this.navCtrl.push(Music, {album_Id: album.id, album_img: img, album_name: album.name})
   }
+  goPlayer(track:any){
+    let album_img: any;
+    if (track.album.images[0]) {
+      album_img = track.album.images[0].url;
+    } else{
+      album_img = 'assets/icon/inter.png';
+    }
+    this.navCtrl.push(Player,{track:track,album_img: album_img, album_name: track.album.name})
+  }
   cancel() {
     this.viewCtrl.dismiss();
   }
   ionViewDidEnter() {
     setTimeout(() => {
       this.searchbar.setFocus();
-    },1000);
+    },500);
   }
   nextprevArt(offset:any){
     let vm = this;
@@ -79,7 +89,7 @@ export class Search {
     if (ev.target.value=='') {
       setTimeout(() => {
         this.searchbar.setFocus();
-      },1000);
+      },500);
     }
     // set val to the value of the searchbar
     this.val = ev.target.value;

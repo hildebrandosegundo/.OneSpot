@@ -60,7 +60,7 @@ export class Album {
       this.getAlbumsArtist();
       setTimeout(() => {
         this.searchbar.setFocus();
-      },1000);
+      },500);
     }
     // set val to the value of the searchbar
     this.val = ev.target.value;

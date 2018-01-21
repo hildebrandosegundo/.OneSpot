@@ -68,7 +68,7 @@
     </div>
     <div *ngIf="tracks && tracks.items.length>0">
       <ion-item-divider class="item-divider">Músicas</ion-item-divider>
-      <ion-item *ngFor="let track of tracks.items" class="item-seach">
+      <ion-item *ngFor="let track of tracks.items" class="item-seach" (click)="goPlayer(track)">
         <ion-thumbnail item-start>
           <img *ngIf="track.album.images[0]" [src]="track.album.images[0].url">
           <img *ngIf="!track.album.images[0]" src="assets/icon/inter.png">

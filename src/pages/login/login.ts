@@ -12,7 +12,7 @@ public user: any;
   constructor(public navCtrl: NavController, private base64: AppBase64Service) {
 
   }
-  public facebookLogin(): Promise<any> {
+  public spotifyLogin(): Promise<any> {
     return new Promise(function(resolve, reject) {
       var browserRef = window.cordova.InAppBrowser.open("https://onespotapi.herokuapp.com/login", "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
       browserRef.addEventListener("loadstart", (event) => {
@@ -30,7 +30,6 @@ public user: any;
             reject("Ocorreu um erro ao realizar login pelo Spotify");
           }
         }
-
       });
       browserRef.addEventListener("exit", function(event) {
         reject("Login pelo Spotify foi cancelado");
@@ -38,7 +37,7 @@ public user: any;
     });
   }
   goHome(){
-      this.facebookLogin().then(success => {
+      this.spotifyLogin().then(success => {
         localStorage['access_token'] = success.access_token;
         localStorage['refresh_token'] = success.refresh_token;
         localStorage['user'] = this.base64.decode(success.user);

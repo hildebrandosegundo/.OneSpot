@@ -15,6 +15,7 @@ import {Search} from "../pages/search/search";
 import {Music} from "../pages/music/music";
 import {Album} from "../pages/album/album";
 import {Player} from "../pages/player/player";
+import {SocialSharing} from "@ionic-native/social-sharing";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {Player} from "../pages/player/player";
     SplashScreen,
     InAppBrowser,
     AppBase64Service,
+    SocialSharing,
     { provide: Http,
       useClass: AuthenticationHttpService
     },
