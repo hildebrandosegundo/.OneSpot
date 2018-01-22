@@ -21,6 +21,17 @@
   <h3 text-center>{{user.display_name}}</h3>
 
 </div>
+  <div *ngIf="favorite.items.length>0">
+    <ion-card (click)="goFavoritePlayList()">
+      <ion-item>
+        <h2>Seus Favoritos</h2>
+        <p>Suas musicas favoritas</p>
+      </ion-item>
+      <ion-card-content>
+        <p>Total de {{favorite.items.length}} músicas</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 <div *ngIf="playlist">
   <ion-card *ngFor="let playl of playlist.items">
 
@@ -29,7 +40,7 @@
       <p>{{playl.type}}</p>
     </ion-item>
 
-    <img [src]="playl.images[0].url">
+    <img [src]="playl.images[0].url" (click)="goPlaylist(playl)">
 
     <ion-card-content>
       <p>Total de {{playl.tracks.total}} músicas</p>

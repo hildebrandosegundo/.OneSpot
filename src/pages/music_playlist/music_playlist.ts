@@ -7,12 +7,12 @@ let spotifyApi = new SpotifyWebApi();
 spotifyApi.setAccessToken(localStorage['access_token']);
 @Component({
   selector: 'page-home',
-  templateUrl: 'music.html'
+  templateUrl: 'music_playlist.html'
 })
-export class Music {
+export class Music_playlist {
   @ViewChild(Searchbar) searchbar:Searchbar;
   public tracks: any;
-  public artist_id: any;
+  public playlist_id: any;
   public album_cid: any;
   public val: any;
   public prev_track: any;
@@ -22,30 +22,32 @@ export class Music {
 
   }
   ngOnInit(){
-    this.album_img = this.navParam.get('album_img');
-    this.album_name = this.navParam.get('album_name');
-    this.album_cid = this.navParam.get('album_cid');
-    this.getTracksAlbum();
+    this.tracks = this.navParam.get('tracks');
+    this.playlist_id = this.navParam.get('playlist_id');
   }
-  /** redireciona para o player **/
-  goPlayer(track:any, album_img:any){
-    this.navCtrl.push(Player,{track:track,album_img: album_img, album_name: this.album_name})
+  goPlayer(track:any){
+    let album_img = '';
+    if (track.track.album.images[0]){
+      album_img = track.track.album.images[0].url;
+    }else{
+      album_img = 'assets/icon/inter.png';
+    }
+    this.navCtrl.push(Player,{track:track.track,album_img: album_img, album_name: track.track.album.name})
   }
-  /** busca musicas de um determinado album de artista **/
-  getTracksAlbum(){
-    let vm = this;
-    this.prev_track = spotifyApi.getAlbumTracks(this.navParam.get('album_Id'), {limit: 10});
-    this.prev_track.then(function(data) {
-      console.log('Track de musica: '+JSON.stringify(data));
-      vm.tracks = data;
-    }, function(err) {
-      console.error(JSON.stringify(err));
-    });
+  getTrackPlaylist(){
+    spotifyApi.setAccessToken(localStorage['access_token']);
+    console.log(localStorage['access_token']);
+    spotifyApi.getPlaylistTracks(JSON.parse(localStorage['user']).id, this.playlist_id)
+      .then((data) =>{
+        this.tracks = data;
+      }, (err) => {
+        console.error(JSON.stringify(err));
+      })
   }
   cancel() {
     this.viewCtrl.dismiss();
   }
-  /** realiza o carregamento da parte anterior ou posterior da lista de musica **/
+
   nextprevTrack(offset:any){
     let vm = this;
     this.prev_track = spotifyApi.next(offset);
@@ -56,11 +58,11 @@ export class Music {
       console.error(JSON.stringify(err));
     });
   }
-  /** filtra o conteudo do array this.track.items **/
+
   getItems(ev: any) {
     // Reset items back to all of the items
     if (ev.target.value=='') {
-      this.getTracksAlbum();
+      this.getTrackPlaylist();
       setTimeout(() => {
         this.searchbar.setFocus();
       },500);

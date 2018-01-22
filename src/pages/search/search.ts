@@ -22,12 +22,11 @@ export class Search {
   constructor(public navCtrl: NavController, private viewCtrl: ViewController) {
 
   }
-  ngOnInit(){
-
-  }
+  /** redireciona para a page de albuns **/
   goAlbums(artist:any){
     this.navCtrl.push(Album, {artist_Id: artist.id})
   }
+  /** redureciona para page de musicas **/
   goMusics(album: any){
     let img;
     if (album.images[0]){
@@ -37,6 +36,7 @@ export class Search {
     }
     this.navCtrl.push(Music, {album_Id: album.id, album_img: img, album_name: album.name})
   }
+  /** redireciona para page de player **/
   goPlayer(track:any){
     let album_img: any;
     if (track.album.images[0]) {
@@ -46,14 +46,18 @@ export class Search {
     }
     this.navCtrl.push(Player,{track:track,album_img: album_img, album_name: track.album.name})
   }
+  /** fecha o modal **/
   cancel() {
     this.viewCtrl.dismiss();
   }
-  ionViewDidEnter() {
+  /** foca no input de search **/
+  ionViewWillEnter() {
     setTimeout(() => {
       this.searchbar.setFocus();
     },500);
   }
+  /** ---------------------------------------------**/
+  /** realiza o carregamento da parte anterior ou posterior da lista de artistas **/
   nextprevArt(offset:any){
     let vm = this;
     this.prev_artist = spotifyApi.next(offset);
@@ -64,6 +68,7 @@ export class Search {
       console.error(JSON.stringify(err));
     });
   }
+  /** realiza o carregamento da parte anterior ou posterior da lista de musica **/
   nextprevTrack(offset:any){
     let vm = this;
     this.prev_track = spotifyApi.next(offset);
@@ -74,6 +79,7 @@ export class Search {
       console.error(JSON.stringify(err));
     });
   }
+  /** realiza o carregamento da parte anterior ou posterior da lista de album **/
   nextprevAlbuns(offset:any){
     let vm = this;
     this.prev_album = spotifyApi.next(offset);
@@ -84,6 +90,7 @@ export class Search {
       console.error(JSON.stringify(err));
     });
   }
+  /** filtra o conteudo do array this.track, this.artists, this.albuns **/
   getItems(ev: any) {
     // Reset items back to all of the items
     if (ev.target.value=='') {
@@ -119,6 +126,4 @@ export class Search {
       });
     }
   }
-
-
 }

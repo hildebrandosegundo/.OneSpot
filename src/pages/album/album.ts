@@ -20,6 +20,7 @@ export class Album {
   ngOnInit(){
     this.getAlbumsArtist();
   }
+  /** busca albuns de um determinado artista **/
   getAlbumsArtist(){
     let vm = this;
     this.prev_album = spotifyApi.getArtistAlbums(this.navParam.get('artist_Id'), {limit: 10});
@@ -30,6 +31,7 @@ export class Album {
       console.error(JSON.stringify(err));
     });
   }
+  /** redireciona para a page de musica **/
   goMusics(album: any){
     let img;
     if (album.images[0]){
@@ -42,7 +44,7 @@ export class Album {
   cancel() {
     this.viewCtrl.dismiss();
   }
-
+  /** realiza o carregamento da parte anterior ou posterior da lista de albuns **/
   nextprevAlbuns(offset:any){
     let vm = this;
     this.prev_album = spotifyApi.next(offset);
@@ -53,7 +55,7 @@ export class Album {
       console.error(JSON.stringify(err));
     });
   }
-
+ /** filtra o conteudo do array this.albuns.items **/
   getItems(ev: any) {
     // Reset items back to all of the items
     if (ev.target.value=='') {

@@ -19,17 +19,7 @@
     <img *ngIf="album_img" [src]="album_img">
     <img *ngIf="!album_img" src="assets/icon/inter.png">
   </ion-thumbnail>
-<!--
-  <img class="bg_player" [src]="album_img">
--->
-<!--<ion-buttons>
-  <button ion-fab *ngIf="!audioObject.isPlaying" (click)="playMusic()">
-    <ion-icon name="play"></ion-icon>
-  </button>
-  <button ion-fab *ngIf="audioObject.isPlaying" (click)="pauseMusic()">
-    <ion-icon name="pause"></ion-icon>
-  </button>
-</ion-buttons>-->
+
   <img [src]="album_img" class="bg_player">
   <div class="content">
 
@@ -45,13 +35,15 @@
     <button item-start ion-fab class="button-player-bg" icon-only #play_btn *ngIf="!isPlaying" (click)="togglePlay()"><ion-icon name="play"></ion-icon></button>
     <button item-start ion-fab class="button-player-bg" icon-only #play_btn *ngIf="isPlaying" (click)="togglePlay()"><ion-icon name="pause"></ion-icon></button>
   <ion-buttons>
+
     <button ion-button clear icon-only color="viol" (click)="repeatMusic()" *ngIf="!repeat"><ion-icon name="repeat"></ion-icon></button>
+    <!-- não foi encontrado um icone semelhante ao repeat-off-->
     <button ion-button clear icon-only color="viol" (click)="repeatMusic()" *ngIf="repeat"><ion-icon name="return-right"></ion-icon></button>
   </ion-buttons>
     <ion-buttons item-end>
       <button ion-button clear icon-only color="light" (click)="shareMusic()"><ion-icon name="share"></ion-icon></button>
-      <button ion-button clear icon-only color="light" (click)="shareMusic()"><ion-icon name="heart"></ion-icon></button>
-      <!--<button ion-button clear icon-only (click)="shareMusic()"><ion-icon name="heart-outline"></ion-icon></button>-->
+      <button ion-button clear icon-only color="light" (click)="toogleFavorite()" *ngIf="togglefav"><ion-icon name="heart"></ion-icon></button>
+      <button ion-button clear icon-only color="light" (click)="toogleFavorite()" *ngIf="!togglefav"><ion-icon name="heart-outline"></ion-icon></button>
     </ion-buttons>
 </ion-item>
     <ion-item>

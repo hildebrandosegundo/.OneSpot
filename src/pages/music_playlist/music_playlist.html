@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-searchbar #searchbar1 (ionInput)="getItems($event)" placeholder="Busque musicas, artistas, albuns..."></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="headerBg">
+  <ion-list>
+    <div *ngIf="tracks && tracks.items.length>0">
+      <ion-item-divider class="item-divider">Músicas</ion-item-divider>
+      <ion-item *ngFor="let track of tracks.items" class="item-seach" (click)="goPlayer(track)">
+        <ion-thumbnail item-start>
+          <img *ngIf="track.track.album.images[0]" [src]="track.track.album.images[0].url">
+          <img *ngIf="!track.track.album.images[0]" src="assets/icon/inter.png">
+        </ion-thumbnail>
+        <h2>{{ track.track.name }}</h2>
+        <h5>{{ track.track.album.name }}</h5>
+        <p class="descricao-artista" *ngFor="let art of track.track.artists"> {{ art.name}}</p>
+        <ion-icon item-end disabled name="ios-arrow-forward"></ion-icon>
+      </ion-item>
+      <ion-buttons *ngIf="tracks.previous || tracks.next">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevTrack(tracks.previous)">
+                <ion-icon name="ios-arrow-back"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-6>
+              <button class="button-bg" ion-button icon-only block (click)="nextprevTrack(tracks.next)">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-buttons>
+    </div>
+  </ion-list>
+
+</ion-content>

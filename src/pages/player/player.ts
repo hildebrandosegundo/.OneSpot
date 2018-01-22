@@ -25,8 +25,9 @@ export class Player {
 
   public album_img: any;
   public album_name: any;
-  public audioObject: any;
-  public val: any;
+  public favorite: any;
+  public togglefav: any = false;
+
   public track: any;
   public repeat: any = false;
   public isPlaying: any = false;
@@ -35,17 +36,22 @@ export class Player {
     this.album_img = this.navParam.get('album_img');
     this.album_name = this.navParam.get('album_name');
     this.track = this.navParam.get('track');
-    /*this.audioObject = new Audio(this.track.preview_url);
-    this.play.min_duration = this.audioObject.min_duration_ms;
-    this.play.max_duration = this.audioObject.max_duration_ms;*/
-    //this.initProgressBar();
+    this.favorite = JSON.parse(localStorage['favorite']);
+    for(let i=0;i<this.favorite.items.length;i++){
+      if (this.favorite.items[i].track.id ===this.track.id){
+        this.togglefav = true;
+        break;
+      }
+    }
   }
+  /** popover de sair **/
   presentPopover(ev:any) {
     let popover = this.popoverCtrl.create(Logout);
     popover.present({
       ev: ev
     });
   }
+  /** repete a musica **/
   repeatMusic(){
     if (this._player.nativeElement.loop) {
       this.repeat = false;
@@ -55,6 +61,7 @@ export class Player {
       this._player.nativeElement.loop = true;
     }
   }
+  /** funcao responsavel por chamar o plugin de compartilhamento **/
   shareMusic(){
 // Check if sharing via email is supported
     this.socialSharing.share('.OneSpot share test', 'OneSpot',[this.album_img], this.track.external_urls.spotify || '').then((res) => {
@@ -74,22 +81,52 @@ export class Player {
   cancel() {
     this.viewCtrl.dismiss();
   }
+  /** realiza o procedimento de calculo do tempo atual da faixa e atualiza o progressbar **/
   initProgressBar() {
     var player = this._player;
     this._length = player.nativeElement.duration;
     var current_time = player.nativeElement.currentTime;
-    // calculate total length of value
+    // calculate tempo total
     var totalLength = this.calculateTotalValue(this._length);
     this._end_time = totalLength;
 
-    // calculate current value time
+    // calcula o tempo atual
     var currentTime = this.calculateCurrentValue(current_time);
     this._start_time = currentTime;
 
     this._prog_val = player.nativeElement.currentTime;
 
   };
-
+  /** funcao busca o id da musica para retirar do favorito, caso não encontre acrecenta no localstorage de favoritos **/
+  toogleFavorite(){
+    let del = false;
+    for(let i=0;i<this.favorite.items.length;i++){
+      if (this.favorite.items[i].track.id ===this.track.id){
+        this.favorite.items.splice(i,1);
+        del = true;
+        this.togglefav = false;
+        break;
+      }
+    }
+    if (!del) {
+      this.togglefav = true;
+      this.favorite.items.push({
+        track: {
+          id: this.track.id,
+          name: this.track.name,
+          external_urls: {spotify:this.track.external_urls.spotify},
+          preview_url: this.track.preview_url,
+          album: {
+            images: [{url: this.album_img}],
+            name: this.album_name
+          },
+          artists: this.track.artists
+        }
+      });
+    }
+    localStorage['favorite'] = JSON.stringify(this.favorite);
+  }
+  /** funcao responsavel por realizar o pause e play **/
   togglePlay() {
     if (this._player.nativeElement.paused === false) {
       this._player.nativeElement.pause();
@@ -100,6 +137,7 @@ export class Player {
       this.isPlaying = true;
     }
   }
+  /** calcula o tempo total da musica **/
   calculateTotalValue(length:any) {
     var minutes = Math.floor(length / 60),
       seconds_int = length - minutes * 60,
@@ -109,7 +147,7 @@ export class Player {
 
     return time;
   }
-
+  /** calcula o tempo atual da musica **/
   calculateCurrentValue(currentTime:any) {
     var current_hour = (currentTime / 3600) % 24,
       current_minute = parseInt(((currentTime/60 ) % 60).toFixed(2)),

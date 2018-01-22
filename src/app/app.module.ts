@@ -16,6 +16,7 @@ import {Music} from "../pages/music/music";
 import {Album} from "../pages/album/album";
 import {Player} from "../pages/player/player";
 import {SocialSharing} from "@ionic-native/social-sharing";
+import {Music_playlist} from "../pages/music_playlist/music_playlist";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {SocialSharing} from "@ionic-native/social-sharing";
     Search,
     Music,
     Album,
-    Player
+    Player,
+    Music_playlist
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import {SocialSharing} from "@ionic-native/social-sharing";
     Search,
     Music,
     Album,
-    Player
+    Player,
+    Music_playlist
   ],
   providers: [
     StatusBar,
